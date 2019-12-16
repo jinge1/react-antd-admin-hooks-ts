@@ -1,10 +1,10 @@
 import React from 'react';
-import './App.css';
-import Home from './pages/Home/Index'
+import Home from '@/pages/Home/Index'
 import Form from './pages/Form/Index'
 import Fetch from './pages/Fetch/Index'
 import { BrowserRouter, Route } from 'react-router-dom'
-import 'antd/dist/antd.css'
+import './App.css';
+// import 'antd/dist/antd.css'
 
 
 const App: React.FC = () => {
