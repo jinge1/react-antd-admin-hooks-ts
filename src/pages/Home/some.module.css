@@ -1,0 +1,19 @@
+:root {
+  --red: #12345678;
+}
+
+
+
+.l{
+  text-align: left;
+  color: orange;
+}
+.r{
+  --some-length: 32px;
+  text-align: right;
+  color: blue;
+  height: var(--some-length);
+  & span{
+    color: var(--mainColor);
+  }
+}

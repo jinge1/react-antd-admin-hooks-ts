@@ -43,3 +43,41 @@
   "extends": "./paths.json"
 }
 ```
+
+## React中CSS Modules的使用（实现CSS的局部作用域）
+
+- 局部样式：命名规则: xxx.module.css 
+
+    - 引入方式 import xxx from 'xxx.module.css'
+    - 用法：<div className={xxx.styleName}>
+
+- 全局样式：命名规则: xxx.css  
+
+    - 引入方式  import ‘xxx.css’
+    - 用法：<div className='styleName'>
+
+## emotion
+
+css方案暂定 [emotion](https://emotion.sh/docs/css-prop)
+
+prop问题待解决
+
+https://github.com/emotion-js/emotion/issues/1123
+
+https://juejin.im/post/5ca5bd0ee51d4564221c4cf3
+
+https://github.com/arackaf/customize-cra/blob/master/api.md
+
+https://segmentfault.com/a/1190000018130766
+
+
+
+<!-- build 区分 development 和 production 模式 -->
+
+<!-- 通过自定义环境变量来实现， 参考 How can I create build for my dev server, 在项目文件夹下创建 .env.production 和 .env.development 文件。 分别设置 REACT_APP_ENV 为 production 和 development。 在package.json 中创建新的命令如下：
+
+业务代码中可以通过使用 process.env.REACT_APP_ENV 来区分不同构建环境 -->
+
+<!-- 状态管理方案 redux or mobx -->
+
+<!-- 代码拆分（路由懒加载） 参考 React.lazy 以及 React.Suspense -->
