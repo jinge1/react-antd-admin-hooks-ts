@@ -1,12 +1,23 @@
 # demo
 
-## questions
+## 修改配置方案（react-app-rewired）
 
-- @types/react-router-dom 问题
+1. `yarn add react-app-rewired --dev`
 
-  - 问题描述：使用@types/react-router-dom 报错 Can't resolve 'react-router-dom'
+2. 根目录新建 config-overrides.js 配置文件
 
-  - 解决办法：安装 react-router-dom
+3. 核心代码(根据实际需要配置):
+
+   ```javascript
+   const { override } = require('customize-cra')
+   const addCustomize = config => {
+     if (process.env.NODE_ENV === 'production') {
+       config.devtool = false //去掉map文件
+     }
+     return config
+   }
+   module.exports = override(addCustomize)
+   ```
 
 ## 配置路径别名
 
@@ -38,46 +49,97 @@
 
 3. tsconfig.json 配置 extends(tsconfig.json 文件可以利用 extends 属性从另一个配置文件里继承配置)
 
-```json
-{
-  "extends": "./paths.json"
+   ```json
+   {
+     "extends": "./paths.json"
+   }
+   ```
+
+## antd 按需加载配置
+
+1. 安装 babel-plugin-import
+
+   `yarn add babel-plugin-import --dev`
+
+2. 配置 react-app-rewired，关键代码：
+
+   ```javascript
+   // config-overrides.js
+   const { override, fixBabelImports } = require('customize-cra')
+   module.exports = override(
+     fixBabelImports('import', {
+       libraryName: 'antd',
+       libraryDirectory: 'es',
+       style: 'css' //自动打包相关的样式 默认为 style:'css'
+     })
+   )
+   ```
+
+## css 方案(emotion)
+
+1. [emotion](https://emotion.sh/docs/css-prop) 即是 JSX 思路的 CSS 实现
+
+2. 示例代码：
+
+```tsx
+import React, { FC } from 'react'
+type StyleProps = {
+  color: string
+  width: number
 }
+
+const EmotionStyle = styled.div<StyleProps>`
+  width: ${(props: StyleProps) => props.width}px;
+  color: ${(props: StyleProps) => props.color};
+  text-align center;
+`
+const EmotionDemo: FC = () => {
+  return (
+    <EmotionStyle color="red" width={300}>
+      <p>emotion css示例</p>
+    </EmotionStyle>
+  )
+}
+export default EmotionDemo
 ```
 
-## React中CSS Modules的使用（实现CSS的局部作用域）
+## yarn 常用命令
 
-- 局部样式：命名规则: xxx.module.css 
+- 初始化项目: `yarn init -y`
 
-    - 引入方式 import xxx from 'xxx.module.css'
-    - 用法：<div className={xxx.styleName}>
+- 安装包: `yarn add [package-name]`
 
-- 全局样式：命名规则: xxx.css  
+- 安装包（添加到 devDependencies）: `yarn add [package-name] --dev`
 
-    - 引入方式  import ‘xxx.css’
-    - 用法：<div className='styleName'>
+- 删除包: `yarn remove [package-name]`
 
-## emotion
+- 安装所有依赖关系: `yarn`
 
-css方案暂定 [emotion](https://emotion.sh/docs/css-prop)
+- 启动命令: `yarn start`
 
-prop问题待解决
+## build 区分 development 和 production 模式(待实现)
 
-https://github.com/emotion-js/emotion/issues/1123
+[参考](https://segmentfault.com/a/1190000018130766)
 
-https://juejin.im/post/5ca5bd0ee51d4564221c4cf3
+查阅文档发现， 为了达到区分生产环境构建和开发环境构建的目的， 可以通过自定义环境变量来实现， 参考 How can I create build for my dev server, 在项目文件夹下创建 .env.production 和 .env.development 文件。 分别设置 REACT_APP_ENV 为 production 和 development。 在 package.json 中创建新的命令如下：
 
-https://github.com/arackaf/customize-cra/blob/master/api.md
+```shell
+// yarn add dotenv-cli -D
+"dev-build": "dotenv -e .env.development react-scripts build"
+```
 
-https://segmentfault.com/a/1190000018130766
+当使用 yarn start 和 yarn dev-build 命令时会加载 .env.development 文件。 当使用 yarn build 命令时，对应加载 .env.production 文件。因此可以在业务代码中可以通过使用 process.env.REACT_APP_ENV 来区分不同构建环境（实际 dev-build 打包还是生产环境的，仅用于业务代码区分 ）。
 
+## 状态管理方案 redux or mobx
 
+## 代码拆分（路由懒加载）
 
-<!-- build 区分 development 和 production 模式 -->
+参考 React.lazy 以及 React.Suspense
 
-<!-- 通过自定义环境变量来实现， 参考 How can I create build for my dev server, 在项目文件夹下创建 .env.production 和 .env.development 文件。 分别设置 REACT_APP_ENV 为 production 和 development。 在package.json 中创建新的命令如下：
+## 路由解决方案 react-router
 
-业务代码中可以通过使用 process.env.REACT_APP_ENV 来区分不同构建环境 -->
+`yarn add @types/react-router-dom react-router-dom`
 
-<!-- 状态管理方案 redux or mobx -->
+如果未安装 react-router-dom，会报错 Can't resolve 'react-router-dom'
 
-<!-- 代码拆分（路由懒加载） 参考 React.lazy 以及 React.Suspense -->
+<!-- https://github.com/osdevisnot/react-app-rewire-contrib/tree/master/packages/react-app-rewire-emotion -->

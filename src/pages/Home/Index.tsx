@@ -1,28 +1,26 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { Steps, Icon } from 'antd'
 import styled from '@emotion/styled'
 import Level from './Level'
-import logo from '@/assets/logo.svg'
-import style from './some.module.css'
+// import logo from '@/assets/logo.svg'
+// import style from './some.module.css'
 const { Step } = Steps
 
-// const Button = styled.button`
-//   color: ${props =>
-//     props.primary ? 'hotpink' : 'turquoise'};
-// `
 
-// const Container = styled.div`(props => ({
-//   display: 'flex',
-//   color: 'red',
-//   flexDirection: props.title && 'title'
-// }))
-// `
+type MyProps = {
+  color: string,
+  width: number
+}
 
-const Container = styled.div`
-color: ${props.title ? 'red' : 'orange'}
+const ATest = styled.div<MyProps>`
+  width: ${(props: MyProps) => props.width}px;
+  color: ${(props: MyProps) => props.color};
+  text-align center;
+  background-size: contain;
 `
 
-const HomeDemo: React.FC = () => {
+
+const HomeDemo: FC = () => {
   return (
     <div className="App">
       <Icon type="home" />
@@ -33,11 +31,7 @@ const HomeDemo: React.FC = () => {
       </Steps>
       {/* <img className="App-logo" src={logo} alt="" /> */}
       <Level />
-      <Container title="321">
-        666
-        {/* <Button>This is a regular button.</Button>
-        <Button primary>This is a primary button.</Button> */}
-      </Container>
+      <ATest color="red" width={300}><p>666</p></ATest>
     </div>
   );
 }
