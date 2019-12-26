@@ -16,12 +16,24 @@ export interface IFetchConf {
 }
 
 export default class BaseFetch {
+  options: IOptions;
   constructor(options?: IOptions) {
-    console.log(options)
+    this.options = options || {}
   }
 
-  toFetch(url: string, conf: IOptions) {
+  // async toFetch(url: string, conf: IOptions) {
+  //   const { fetchUrl, fetchOptions } = this.formateOptions(url: string, conf: IOptions)
+  //   return new Promise((resolve, reject) => {
+  //     try {
+  //       const res = await fetch(fetchUrl, fetchOptions)
+  //       const json = await res.json()
+  //       resolve(json)
+  //     } catch (reson) {
+  //       reject(reson)
+  //     }
+  //   })
 
-  }
+
+  // }
 }
 
