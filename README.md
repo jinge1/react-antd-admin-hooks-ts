@@ -143,3 +143,21 @@ export default EmotionDemo
 如果未安装 react-router-dom，会报错 Can't resolve 'react-router-dom'
 
 <!-- https://github.com/osdevisnot/react-app-rewire-contrib/tree/master/packages/react-app-rewire-emotion -->
+
+## 功能
+
+后台管理系统，主要分列表，详情，与编辑3部分
+
+- 列表
+
+  - 搜索条件（根据屏幕自适应3-4个，输入框长度自适应，展开与收起控制）
+
+  - 列表（分页：页码，跳转指定页，上一页，下一页；详情，编辑按钮）
+
+- 详情与编辑
+
+  - 左侧菜单与右侧项目对应高亮，支持滚动后边对应高亮左侧菜单
+
+  - 右侧项目有表单，表格（支持选择），统一提交，项目之间支持数据关联
+
+  - 详情与编辑需展示不同效果
