@@ -3,12 +3,14 @@ interface IObject {
   [propName: string]: string
 }
 
+type credentials = 'include' | 'same-origin' | 'omit'
+
 export interface IOptions {
   readonly method?: string;
   readonly baseUrl?: string;
   readonly timeout?: number;
   readonly headers?: IObject;
-  readonly credentials?: 'include' | 'same-origin' | 'omit' | undefined
+  readonly credentials?: credentials
 }
 
 export interface IFetchConf {
