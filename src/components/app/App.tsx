@@ -1,7 +1,8 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC } from 'react'
 import styled from '@emotion/styled'
 import NavTree from '@/components/tree/Tree'
 import Router from '@/components/router/Router'
+import Provider from '@/components/Provider'
 
 import './App.css'
 
@@ -64,27 +65,29 @@ const HeaderRight = styled.div`
 
 const App: FC = () => {
   return (
-    <Body>
-      <SideBar>
-        <Logo>company-logo</Logo>
-        <Nav>
-          <NavTree></NavTree>
-        </Nav>
-      </SideBar>
-      <Main>
-        <Header>
-          <p>slide</p>
-          <HeaderRight>
-            <p>1</p>
-            <p>2</p>
-            <p>3</p>
-          </HeaderRight>
-        </Header>
-        <Content>
-          <Router></Router>
-        </Content>
-      </Main>
-    </Body>
+    <Provider>
+      <Body>
+        <SideBar>
+          <Logo>company-logo</Logo>
+          <Nav>
+            <NavTree></NavTree>
+          </Nav>
+        </SideBar>
+        <Main>
+          <Header>
+            <p>slide</p>
+            <HeaderRight>
+              <p>1</p>
+              <p>2</p>
+              <p>3</p>
+            </HeaderRight>
+          </Header>
+          <Content>
+            <Router></Router>
+          </Content>
+        </Main>
+      </Body>
+    </Provider>
   )
 }
 

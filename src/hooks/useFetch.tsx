@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
+
+// https://segmentfault.com/a/1190000020148722
 
 interface IObj {
   [propName: string]: any
