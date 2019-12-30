@@ -2,7 +2,7 @@ import React, { FC } from 'react'
 import Home from '@/pages/Home/Index'
 import Form from '@/pages/Form/Index'
 import Fetch from '@/pages/Fetch/Index'
-import { BrowserRouter, Route } from 'react-router-dom'
+import { BrowserRouter, Route, useHistory } from 'react-router-dom'
 
 const Router: FC = () => {
   return (

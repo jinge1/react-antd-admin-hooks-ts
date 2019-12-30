@@ -4,19 +4,35 @@ export const storeContext: any = createContext({})
 
 export const SET_MENU_LIST: string = 'SET_MENU_LIST'
 
+interface IAction {
+  type: string;
+  [propName: string]: any
+}
+
+interface IActions {
+  [propName: string]: any
+}
+
 const initialState = {
   menuList: []
 }
 
-const asyncReducer = (action: any, dispatch: any) => {
-  // const obj = {
-  //   ['SET_MENU_LIST'](action) {
 
-  //   }
-  // }
+const asyncReducer = (action: IAction, dispatch: any) => {
+  const actions: IActions = {
+    SET_MENU_LIST(action: IAction) {
+      console.log(1)
+    }
+  }
+  switch (action.type) {
+    case SET_MENU_LIST:
+      actions[action.type]()
+    default:
+      return ''
+  }
 }
 
-const reducer = (state: any, action: any) => {
+const reducer = (state: any, action: IAction) => {
   switch (action.type) {
     case SET_MENU_LIST:
       return { ...state, menuList: action.list }
