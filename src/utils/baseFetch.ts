@@ -19,23 +19,29 @@ export interface IFetchConf {
 
 export default class BaseFetch {
   options: IOptions;
-  constructor(options?: IOptions) {
-    this.options = options || {}
+  constructor(options: IOptions = {}) {
+    this.options = options
   }
 
-  // async toFetch(url: string, conf: IOptions) {
-  //   const { fetchUrl, fetchOptions } = this.formateOptions(url: string, conf: IOptions)
-  //   return new Promise((resolve, reject) => {
-  //     try {
-  //       const res = await fetch(fetchUrl, fetchOptions)
-  //       const json = await res.json()
-  //       resolve(json)
-  //     } catch (reson) {
-  //       reject(reson)
-  //     }
-  //   })
+  async toFetch(api: string, conf: IOptions) {
+    const { url, config } = this.mixConf(api, conf)
+    try {
+      const res = await fetch(url, config)
+      const json = await res.json()
+      return json
+    } catch (reson) {
+      // reject(reson)
+      throw reson
+    }
+  }
 
 
-  // }
+  mixConf(api: string, conf: IOptions) {
+    const {method, baseUrl,  } = conf
+    return {
+      url: '', config: {}
+    }
+  }
+
 }
 

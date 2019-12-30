@@ -8,7 +8,7 @@ interface IObj {
 
 interface IConf {
   method?: string
-  credentials?: 'include' | 'same-origin' | 'omit' | undefined
+  credentials?: 'include' | 'same-origin' | 'omit'
   headers?: any
 }
 
