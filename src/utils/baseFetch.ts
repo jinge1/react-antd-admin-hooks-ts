@@ -10,11 +10,8 @@ export interface IOptions {
   readonly baseUrl?: string;
   readonly timeout?: number;
   readonly headers?: IObject;
+  readonly body?: any;
   readonly credentials?: credentials
-}
-
-export interface IFetchConf {
-  readonly method?: string;
 }
 
 export default class BaseFetch {
@@ -37,10 +34,25 @@ export default class BaseFetch {
 
 
   mixConf(api: string, conf: IOptions) {
-    const {method, baseUrl,  } = conf
+    const { options } = this
+    const { method, baseUrl, headers, body }: IOptions = { ...options, ...conf }
+    const url = /^https?:\/\//.test(api) ? api : this.joinPath(baseUrl || '', api)
+    if (method && method.toLocaleLowerCase() === 'get') {
+      return {
+        url
+      }
+    }
     return {
       url: '', config: {}
     }
+  }
+
+  joinPath(...paths: string[]) {
+    return paths.map(p => p.replace(/\/+$/, '')).join('/')
+  }
+
+  getParams(body: string | IObject) {
+
   }
 
 }
