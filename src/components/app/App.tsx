@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import styled from '@emotion/styled'
-import NavTree from '@/components/tree/Tree'
+import NavTree from '@/components/navTree/NavTree'
 import Router from '@/components/router/Router'
 import Provider from '@/components/Provider'
 

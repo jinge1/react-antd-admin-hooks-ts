@@ -1,5 +1,6 @@
 
 import { IState } from '@/store/state'
+import commFetch from '@/utils/commFetch'
 
 export const SET_MENU_LIST: string = 'SET_MENU_LIST'
 
@@ -29,10 +30,9 @@ export const reducers = {
 export const asyncReducer = (action: IAction, dispatch: IDispatch) => {
   const { type, ...info } = action
   const actions = {
-    [SET_MENU_LIST](info: IObject, dispatch: IDispatch) {
-      setTimeout(() => {
-        dispatch({ type: SET_MENU_LIST, menuList: [3, 5, 8] })
-      }, 3000)
+    async [SET_MENU_LIST](info: IObject, dispatch: IDispatch) {
+      const { data } = await commFetch.toPost('sso-portal/menu/getUserMenu')
+      dispatch({ type: SET_MENU_LIST, menuList: data.list })
     }
   }
   if (typeof actions[type] !== 'function') {

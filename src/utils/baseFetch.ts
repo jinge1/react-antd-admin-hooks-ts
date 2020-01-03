@@ -5,8 +5,8 @@ interface IObject {
 
 type TCredentials = 'include' | 'same-origin' | 'omit'
 
-type TBody = string | {
-  [propName: string]: string | Blob
+export type TBody = string | {
+  [propName: string]: any
 }
 
 export interface IOptions {
@@ -25,45 +25,44 @@ export default class BaseFetch {
   }
 
   async toFetch(api: string, conf: IOptions) {
-    // const { url, config } = this.mixConf(api, conf)
-    // try {
-    //   const res = await fetch(url, config)
-    //   const json = await res.json()
-    //   return json
-    // } catch (reson) {
-    //   // reject(reson)
-    //   throw reson
-    // }
+
+    const { url, ...other } = this.mixConf(api, conf)
+    console.log(conf, other)
+    try {
+      const res = await fetch(url, other)
+      const json = await res.json()
+      return json
+    } catch (reson) {
+      throw reson
+    }
   }
 
 
   mixConf(api: string, conf: IOptions) {
     const { options } = this
-    const { method = 'get', baseUrl, headers, body }: IOptions = { ...options, ...conf }
+    const { method = 'get', headers = {}, body, credentials }: IOptions = { ...options, ...conf }
     const localeMethod = method.toLocaleLowerCase()
-    let url = /^https?:\/\//.test(api) ? api : this.joinPath(baseUrl || '', api)
+    let url = this.getFetchUrl(api, conf)
     let tempBody: any = body
     let result: IObject | { headers: IObject } = {
-      method: method.toUpperCase(),
-      url
+      method: method.toUpperCase()
     }
     if (typeof headers !== 'undefined') {
       result = { ...result, headers }
     }
     if (localeMethod === 'get') {
-      result = { ...result, url: `${url}${url.includes('?') ? '&' : '?'}${this.queryStringify(body)}` }
+      url = `${url}${url.includes('?') ? '&' : '?'}${this.queryStringify(body)}`
       tempBody = null
     }
     if (typeof body === 'object') {
-      const tempHeaders = headers || {}
-      const key = Object.keys(tempHeaders).find(key => key.toLocaleLowerCase() === 'content-type') || 'application/x-www-form-urlencoded'
-      if (tempHeaders[key].includes('x-www-form-urlencoded')) {
+      const key = Object.keys(headers).find(key => key.toLocaleLowerCase() === 'content-type') || 'application/x-www-form-urlencoded'
+      if (headers[key].includes('x-www-form-urlencoded')) {
         tempBody = this.queryStringify(body)
       }
-      if (tempHeaders[key].includes('application/json')) {
+      if (headers[key].includes('application/json')) {
         tempBody = JSON.stringify(body)
       }
-      if (tempHeaders[key].includes('multipart/form-data') && !(body instanceof FormData)) {
+      if (headers[key].includes('multipart/form-data') && !(body instanceof FormData)) {
         tempBody = this.jsonToFormData(body)
       }
     }
@@ -71,8 +70,20 @@ export default class BaseFetch {
     if (tempBody) {
       result = { ...result, body: tempBody }
     }
+    if (headers) {
+      result = { ...result, headers }
+    }
+    if (credentials) {
+      result = { ...result, credentials }
+    }
 
-    return headers ? { ...result, headers } : result
+    return { url, ...result, headers }
+  }
+
+  getFetchUrl(api: string, conf: IOptions = {}) {
+    const { options } = this
+    const { baseUrl }: IOptions = { ...options, ...conf }
+    return /^https?:\/\//.test(api) ? api : this.joinPath(baseUrl || '', api)
   }
 
   joinPath(...paths: string[]) {
