@@ -20,7 +20,8 @@ const defaultConf: IConf = {
   }
 }
 
-const baseOrigin = 'http://192.168.34.189:18001/'
+// const baseOrigin = 'http://192.168.34.189:18001/'
+const baseOrigin = 'http://localhost:5000/'
 
 const useFetch = (url: string, body: string | IObj = {}, options = defaultConf) => {
   // const [fetching, setFetch] = useState(false)

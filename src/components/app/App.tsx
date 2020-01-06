@@ -1,4 +1,5 @@
 import React, { FC } from 'react'
+import { BrowserRouter } from 'react-router-dom'
 import styled from '@emotion/styled'
 import NavTree from '@/components/navTree/NavTree'
 import Router from '@/components/router/Router'
@@ -65,29 +66,31 @@ const HeaderRight = styled.div`
 
 const App: FC = () => {
   return (
-    <Provider>
-      <Body>
-        <SideBar>
-          <Logo>company-logo</Logo>
-          <Nav>
-            <NavTree></NavTree>
-          </Nav>
-        </SideBar>
-        <Main>
-          <Header>
-            <p>slide</p>
-            <HeaderRight>
-              <p>1</p>
-              <p>2</p>
-              <p>3</p>
-            </HeaderRight>
-          </Header>
-          <Content>
-            <Router></Router>
-          </Content>
-        </Main>
-      </Body>
-    </Provider>
+    <BrowserRouter>
+      <Provider>
+        <Body>
+          <SideBar>
+            <Logo>company-logo</Logo>
+            <Nav>
+              <NavTree></NavTree>
+            </Nav>
+          </SideBar>
+          <Main>
+            <Header>
+              <p>slide</p>
+              <HeaderRight>
+                <p>1</p>
+                <p>2</p>
+                <p>3</p>
+              </HeaderRight>
+            </Header>
+            <Content>
+              <Router></Router>
+            </Content>
+          </Main>
+        </Body>
+      </Provider>
+    </BrowserRouter>
   )
 }
 

@@ -73,7 +73,7 @@ class CommFetch extends BaseFetch {
 
 const commFetch = new CommFetch({
   method: 'post',
-  baseUrl: 'http://192.168.34.189:18001',
+  baseUrl: 'http://localhost:5000',
   headers: {
     'Content-Type': 'application/json;charset=UTF-8'
   },

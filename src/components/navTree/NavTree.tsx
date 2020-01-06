@@ -1,4 +1,4 @@
-import React, { FC, useContext, useEffect, Children } from 'react'
+import React, { FC, useContext, useEffect } from 'react'
 import { Tree } from 'antd'
 import { storeContext } from '@/components/Provider'
 // import useFetch from '@/hooks/useFetch'
@@ -11,14 +11,17 @@ type TList = {
 }
 
 const NavTree: FC = () => {
-  const { state, dispatch, asyncDispatch } = useContext(storeContext)
+  const { state, dispatch, asyncDispatch, history } = useContext(storeContext)
   const { menuList } = state
   useEffect(() => {
     asyncDispatch({ type: 'SET_MENU_LIST' })
   }, [dispatch, asyncDispatch])
-  const expandedKeys: string[] = []
-  const dragEnter = (info: any) => { console.log(info) }
-  const drop = (info: any) => { console.log(info) }
+  const expandedKeys: string[] = ['1021']
+  const select = (arr: string[]) => {
+    if (arr[0] === '1021003') {
+      history.push('/list')
+    }
+  }
 
   const loop = (list: TList) => list.map((item: TList) => {
     const { children, resourceCode, resourceName } = item
@@ -32,8 +35,9 @@ const NavTree: FC = () => {
     return <TreeNode key={resourceCode} title={resourceName} />
   })
   return menuList.length > 0 ? (
-    <Tree onDragEnter={dragEnter}
-      onDrop={drop}
+    <Tree
+      onSelect={select}
+      blockNode={true}
       defaultExpandedKeys={expandedKeys}
     >
       {loop(menuList)}
