@@ -33,7 +33,7 @@ const useFetch = (url: string, body: string | IObj = {}, options = defaultConf) 
       // setIsError(false)
       // setIsLoading(true)
       try {
-        const info = await commFetch.toPost('sso-portal/menu/getUserMenu')
+        const info = await commFetch.toPost(url)
         setRes(info)
       } catch (err) {
         setErr('系统异常')

@@ -25,9 +25,7 @@ export default class BaseFetch {
   }
 
   async toFetch(api: string, conf: IOptions) {
-
     const { url, ...other } = this.mixConf(api, conf)
-    console.log(conf, other)
     try {
       const res = await fetch(url, other)
       const json = await res.json()
