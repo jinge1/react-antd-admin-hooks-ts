@@ -42,10 +42,10 @@ class CommFetch extends BaseFetch {
 
   async toRequest(api: string, conf: IOptions) {
     try {
-      const { resultCode, errorDesc, errorCode, code, msg, ...other } = await this.toFetch(this.addMenuId(api), conf)
+      const { resultCode, errorDesc, errorCode, code, msg, data, result, ...other } = await this.toFetch(this.addMenuId(api), conf)
       if (resultCode === '1' || code === '00') {
         // succ
-        return other
+        return result || data
       } else if (errorCode === '003' || code === '003') {  // to login
         console.log('go to login')
       } else { // error
@@ -73,7 +73,8 @@ class CommFetch extends BaseFetch {
 
 const commFetch = new CommFetch({
   method: 'post',
-  baseUrl: 'http://localhost:5000',
+  // baseUrl: 'http://localhost:5000',
+  baseUrl: 'http://192.168.34.189:18001/',
   headers: {
     'Content-Type': 'application/json;charset=UTF-8'
   },

@@ -31,8 +31,8 @@ export const asyncReducer = (action: IAction, dispatch: IDispatch) => {
   const { type, ...info } = action
   const actions = {
     async [SET_MENU_LIST](info: IObject, dispatch: IDispatch) {
-      const { data } = await commFetch.toPost('sso-portal/menu/getUserMenu')
-      dispatch({ type: SET_MENU_LIST, menuList: data.list })
+      const { list } = await commFetch.toPost('sso-portal/menu/getUserMenu')
+      dispatch({ type: SET_MENU_LIST, menuList: list })
     }
   }
   if (typeof actions[type] !== 'function') {
