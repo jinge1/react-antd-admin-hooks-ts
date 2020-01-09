@@ -129,6 +129,7 @@ interface IOptions {
 export default (options?: IOptions) => {
   return {
     api: 'rlc-mal/openserver/queryClaimPaymentList?menuId=959',
+    formList,
     columns: columns.map(item => ({ ...item, dataIndex: item.key }))
   }
 }
