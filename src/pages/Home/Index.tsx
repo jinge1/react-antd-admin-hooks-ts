@@ -1,5 +1,5 @@
-import React, { FC } from 'react'
-import { Table, Form, Input, Button } from 'antd'
+import React, { FC, useState } from 'react'
+import { Table, Form, Input, Button, Row, Col } from 'antd'
 import styled from '@emotion/styled'
 import useFetch from '@/hooks/useFetch'
 import queryClaimPaymentList from '@/model/queryClaimPaymentList'
@@ -10,43 +10,84 @@ import queryClaimPaymentList from '@/model/queryClaimPaymentList'
 //   width: number
 // }
 
+interface IObject {
+  [propName: string]: any
+}
+
 const Div = styled.div`
   background: #fff;
 `
 
 // https://blog.csdn.net/qq_37674616/article/details/84372896
 const Home: FC = () => {
-  const { api, formList, columns } = queryClaimPaymentList()
-  const { err, res } = useFetch(api, { "transCode": "", "currentPage": 1, "pageSize": 10, "applyserialNo": "", "serialNo": "", "customerName": "", "certId": "" })
+  const [body, setBody] = useState({ "transCode": "", "currentPage": 1, "pageSize": 10, "applyserialNo": "", "serialNo": "", "customerName": "", "certId": "" })
+  const { api, columns } = queryClaimPaymentList()
+  const { err, res } = useFetch(api, body)
   const { records = [] } = res
-  // const actionItem = {
-  //   "title": "操作管理",
-  //   width: 150,
-  //   "key": "action",
-  //   fixed: 'right',
-  //   render: () => <span>action</span>,
-  // }
   const x = columns.reduce((pre, curr) => pre + curr.width, 0)
-  const submit = (values: any) => { console.log(values) }
-  const RegistrationForm = (props: any) => {
-    const { getFieldDecorator } = props.form
+  const colArr = [...columns, {
+    "title": "操作管理",
+    width: 150,
+    "key": "action",
+    // fixed: 'right',
+    render: () => <span>详情</span>,
+  }]
+  console.log(columns)
+
+  const HomeForm = Form.create({ name: 'home-form' })((props: { form: IObject }) => {
+    const { form }: IObject = props
+    const { getFieldDecorator, validateFields } = form
+    const submit = (e: any) => {
+      e.preventDefault()
+      validateFields((err: any, values: any) => {
+        setBody(values)
+      })
+    }
+    const reset = () => {
+      form.resetFields()
+    }
     return (
       <Form onSubmit={submit}>
-        {getFieldDecorator('note', {
-          rules: [{ required: true, message: 'Please input your note!' }],
-        })(<Input />)}
+        <Row>
+          <Col span={8}>
+            <Form.Item>
+              {getFieldDecorator('username')(
+                <Input
+                  placeholder="Username"
+                />,
+              )}
+            </Form.Item>
+          </Col>
+          <Col span={8}>
+            <Form.Item>
+              {getFieldDecorator('password')(
+                <Input
+                  type="password"
+                  placeholder="Password"
+                />,
+              )}
+            </Form.Item>
+          </Col>
+        </Row>
+        <Row>
+          <Col span={24}>
+            <Button type="primary" htmlType="submit">
+              Search
+            </Button>
+            <Button style={{ marginLeft: 8 }} onClick={reset}>
+              Clear
+            </Button>
+          </Col>
+        </Row>
       </Form>
     )
-  }
-
-  const HomeForm = Form.create({ name: 'home-form' })(RegistrationForm)
+  })
 
 
   return (
     <Div>
-      <p>转账还款认领</p>
       <HomeForm></HomeForm>
-      <Table scroll={{ x, y: 200 }} rowKey="applySerialNo" dataSource={records.map((item: any) => ({ ...item, key: item.applyserialNo }))} columns={columns} />
+      <Table scroll={{ x, y: 200 }} rowKey="applySerialNo" dataSource={records.map((item: any) => ({ ...item, key: item.applyserialNo }))} columns={colArr} />
     </Div>
   );
 }

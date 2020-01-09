@@ -27,7 +27,6 @@ const useFetch = (url: string, body: string | IObj = {}, options = defaultConf) 
   // const [isError, setIsError] = useState(false)
   const [res, setRes] = useState({} as IObj)
   const [err, setErr] = useState('')
-
   useEffect(() => {
     const fetchData = async () => {
       // setIsError(false)
@@ -40,7 +39,7 @@ const useFetch = (url: string, body: string | IObj = {}, options = defaultConf) 
       }
     }
     fetchData()
-  }, [])
+  }, [body, url])
   return { err, res }
 }
 

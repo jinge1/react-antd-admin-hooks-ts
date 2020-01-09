@@ -2,6 +2,7 @@ import React, { FC } from 'react'
 import Home from '@/pages/Home/Index'
 import Form from '@/pages/Form/Index'
 import Fetch from '@/pages/Fetch/Index'
+import Edit from '@/pages/Edit/Index'
 import { Switch, Route } from 'react-router-dom'
 
 const Router: FC = () => {
@@ -11,6 +12,7 @@ const Router: FC = () => {
       <Route path="/form" component={Form}></Route>
       <Route path="/fetch" component={Fetch}></Route>
       <Route path="/list" component={Fetch}></Route>
+      <Route path="/edit" component={Edit}></Route>
     </Switch>
   )
 }

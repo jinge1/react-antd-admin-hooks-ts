@@ -4,6 +4,11 @@
 
 // import ApiModel from '@/utils/core/apiModel'
 
+interface IColumn {
+  width: number,
+  [propName: string]: any
+}
+
 // 表单信息
 const formList = [
   {
@@ -33,7 +38,7 @@ const formList = [
 ]
 
 // 表格信息
-const columns = [
+const columns: IColumn[] = [
   {
     "title": "贷款申请编号",
     width: 150,
