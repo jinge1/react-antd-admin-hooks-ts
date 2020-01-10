@@ -1,7 +1,7 @@
 /**
  * 转账还款认领列表查询
  */
-
+import { IInputItem } from '@/types/form'
 // import ApiModel from '@/utils/core/apiModel'
 
 interface IColumn {
@@ -9,8 +9,9 @@ interface IColumn {
   [propName: string]: any
 }
 
+
 // 表单信息
-const formList = [
+const formList: IInputItem[] = [
   {
     type: 'input',
     label: '贷款申请编号',
@@ -22,6 +23,16 @@ const formList = [
     label: '贷款借据编号',
     value: '',
     name: 'serialNo'
+  },
+  {
+    type: 'select',
+    label: '产品名称',
+    value: [],
+    name: 'productIdArray',
+    options: [
+      { label: 'label1', value: 'value1' },
+      { label: 'label2', value: 'value2' }
+    ]
   },
   {
     type: 'input',

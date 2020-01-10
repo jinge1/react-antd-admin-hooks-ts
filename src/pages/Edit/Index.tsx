@@ -16,7 +16,7 @@ const Div = styled.div`
 
 // https://blog.csdn.net/qq_37674616/article/details/84372896
 const Home: FC = () => {
-  const { api, formList, columns } = queryClaimPaymentList()
+  const { api, columns } = queryClaimPaymentList()
   const { err, res } = useFetch(api, { "transCode": "", "currentPage": 1, "pageSize": 10, "applyserialNo": "", "serialNo": "", "customerName": "", "certId": "" })
   const { records = [] } = res
   // const actionItem = {
@@ -27,7 +27,7 @@ const Home: FC = () => {
   //   render: () => <span>action</span>,
   // }
   const x = columns.reduce((pre, curr) => pre + curr.width, 0)
-
+  console.log(err)
 
   const HomeForm = Form.create({ name: 'home-form' })((props: any) => {
     const { getFieldDecorator, validateFields } = props.form

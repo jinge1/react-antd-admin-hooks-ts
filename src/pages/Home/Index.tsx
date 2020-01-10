@@ -1,14 +1,10 @@
-import React, { FC, useState } from 'react'
-import { Table, Form, Input, Button, Row, Col } from 'antd'
+import React, { FC, useState, useCallback } from 'react'
 import styled from '@emotion/styled'
+import CommForm from '@/components/commForm/CommForm'
+import CommTable from '@/components/commTable/CommTable'
 import useFetch from '@/hooks/useFetch'
 import queryClaimPaymentList from '@/model/queryClaimPaymentList'
 
-
-// type MyProps = {
-//   color: string,
-//   width: number
-// }
 
 interface IObject {
   [propName: string]: any
@@ -16,78 +12,36 @@ interface IObject {
 
 const Div = styled.div`
   background: #fff;
+  margin-top: 10px;
 `
 
-// https://blog.csdn.net/qq_37674616/article/details/84372896
+const selectItems = {
+  productIdArray: {
+    name: 'productIdArray',
+    body: {}
+  }
+}
+
+// 转账还款认领
 const Home: FC = () => {
-  const [body, setBody] = useState({ "transCode": "", "currentPage": 1, "pageSize": 10, "applyserialNo": "", "serialNo": "", "customerName": "", "certId": "" })
-  const { api, columns } = queryClaimPaymentList()
+  const [body, setBody] = useState({})
+  const { api, columns, formList } = queryClaimPaymentList()
   const { err, res } = useFetch(api, body)
   const { records = [] } = res
-  const x = columns.reduce((pre, curr) => pre + curr.width, 0)
-  const colArr = [...columns, {
+  const actionItem = {
     "title": "操作管理",
     width: 150,
     "key": "action",
     // fixed: 'right',
-    render: () => <span>详情</span>,
-  }]
-  console.log(columns)
+    render: () => <span>详情</span>
+  }
 
-  const HomeForm = Form.create({ name: 'home-form' })((props: { form: IObject }) => {
-    const { form }: IObject = props
-    const { getFieldDecorator, validateFields } = form
-    const submit = (e: any) => {
-      e.preventDefault()
-      validateFields((err: any, values: any) => {
-        setBody(values)
-      })
-    }
-    const reset = () => {
-      form.resetFields()
-    }
-    return (
-      <Form onSubmit={submit}>
-        <Row>
-          <Col span={8}>
-            <Form.Item>
-              {getFieldDecorator('username')(
-                <Input
-                  placeholder="Username"
-                />,
-              )}
-            </Form.Item>
-          </Col>
-          <Col span={8}>
-            <Form.Item>
-              {getFieldDecorator('password')(
-                <Input
-                  type="password"
-                  placeholder="Password"
-                />,
-              )}
-            </Form.Item>
-          </Col>
-        </Row>
-        <Row>
-          <Col span={24}>
-            <Button type="primary" htmlType="submit">
-              Search
-            </Button>
-            <Button style={{ marginLeft: 8 }} onClick={reset}>
-              Clear
-            </Button>
-          </Col>
-        </Row>
-      </Form>
-    )
-  })
-
+  console.log(err)
 
   return (
     <Div>
-      <HomeForm></HomeForm>
-      <Table scroll={{ x, y: 200 }} rowKey="applySerialNo" dataSource={records.map((item: any) => ({ ...item, key: item.applyserialNo }))} columns={colArr} />
+      <CommForm name="home-form" selectItems={selectItems} list={formList} callback={(values: IObject) => setBody(values)}></CommForm>
+      <CommTable rowKey="applySerialNo" records={records} columns={[...columns, actionItem]}></CommTable>
     </Div>
   );
 }
