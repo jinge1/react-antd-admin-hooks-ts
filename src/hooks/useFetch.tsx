@@ -21,7 +21,7 @@ const defaultConf: IConf = {
   }
 }
 
-const useFetch = (url: string, body: string | IObj = {}, options = defaultConf) => {
+const useFetch = (url: string, body?: string | IObj, options = defaultConf) => {
   // const [fetching, setFetch] = useState(false)
   // const [isLoading, setIsLoading] = useState(false)
   // const [isError, setIsError] = useState(false)
@@ -32,7 +32,7 @@ const useFetch = (url: string, body: string | IObj = {}, options = defaultConf) 
       // setIsError(false)
       // setIsLoading(true)
       try {
-        const info = await commFetch.toPost(url, body)
+        const info = await commFetch.toPost(url, body || {})
         setRes(info)
       } catch (err) {
         setErr('系统异常')

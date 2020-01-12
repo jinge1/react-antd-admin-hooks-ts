@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react'
+import React, { FC, useEffect, useState, useReducer } from 'react'
 import { Form, Input, Button, Row, Col, Select } from 'antd'
 import { IInputItem } from '@/types/form'
 // import useFetch from '@/hooks/useFetch'
@@ -9,6 +9,10 @@ interface IObject {
   [propName: string]: any;
 }
 
+interface IAction{
+  type: string;
+  [propName: string]: any;
+}
 
 interface ISelect {
   [propName: string]: {
@@ -28,22 +32,36 @@ const { Option } = Select
 
 const { api, format } = qryProdList()
 
+const dataFetchReducer = (state: IObject, action: IAction) => {
+  switch (action.type) {
+    case 'FETCH_INIT':
+      return {
+        ...state,
+        // list: action.list
+      };
+    default:
+      throw state;
+  }
+}
+
 const CommForm: FC<IProps> = (props) => {
   const { name = 'comm-form', callback, list, selectItems = {} } = props
   const [optionsRes, setOptionsRes] = useState({})
+  const [state, dispatch] = useReducer(dataFetchReducer, {})
   // const { err: optionErr, res } = useFetch(api)
+  // console.log(res)
+  console.log(optionsRes)
   useEffect(() => {
     const getOptions = () => {
+      let temp = {}
       Object.keys(selectItems).forEach(async (selectKey) => {
         const { body } = selectItems[selectKey]
         if (selectKey === 'productIdArray') {
           const result = await commFetch.toPost(api, body)
-          setOptionsRes({
-            ...optionsRes,
-            [selectKey]: format(result)
-          })
+          temp = { ...temp, [selectKey]: format(result) }
         }
       })
+      setOptionsRes(temp)
     }
     if (Object.keys(selectItems).length > 0) {
       getOptions()

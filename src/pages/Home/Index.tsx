@@ -1,4 +1,4 @@
-import React, { FC, useState, useCallback } from 'react'
+import React, { FC, useState } from 'react'
 import styled from '@emotion/styled'
 import CommForm from '@/components/commForm/CommForm'
 import CommTable from '@/components/commTable/CommTable'
@@ -9,6 +9,8 @@ import queryClaimPaymentList from '@/model/queryClaimPaymentList'
 interface IObject {
   [propName: string]: any
 }
+
+const { api, columns, formList } = queryClaimPaymentList()
 
 const Div = styled.div`
   background: #fff;
@@ -25,7 +27,6 @@ const selectItems = {
 // 转账还款认领
 const Home: FC = () => {
   const [body, setBody] = useState({})
-  const { api, columns, formList } = queryClaimPaymentList()
   const { err, res } = useFetch(api, body)
   const { records = [] } = res
   const actionItem = {
@@ -36,7 +37,7 @@ const Home: FC = () => {
     render: () => <span>详情</span>
   }
 
-  console.log(err)
+  console.log('err', err)
 
   return (
     <Div>
