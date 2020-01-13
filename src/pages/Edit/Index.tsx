@@ -1,8 +1,9 @@
-import React, { FC } from 'react'
-import { Table, Form, Input, Icon, Button } from 'antd'
+import React, { FC, useState } from 'react'
+import { useLocation, useParams } from 'react-router-dom'
 import styled from '@emotion/styled'
+import CommForm from '@/components/commForm/CommForm'
 import useFetch from '@/hooks/useFetch'
-import queryClaimPaymentList from '@/model/queryClaimPaymentList'
+import claimTrialPayment from '@/model/claimTrialPayment'
 
 
 // type MyProps = {
@@ -14,69 +15,40 @@ const Div = styled.div`
   background: #fff;
 `
 
+interface IObject {
+  [propName: string]: any
+}
+
+const getSearch = (search: string, name?: string) => {
+  const arr = search.match(/([^?=&]+)=([^?=&]+)/g)
+  let temp: IObject = {}
+  if (arr) {
+    temp = arr.reduce((pre, curr) => ({ ...pre, [curr.split('=')[0]]: curr.split('=')[1] }), {})
+  }
+  return name ? temp[name] || '' : temp
+}
+
+
 // https://blog.csdn.net/qq_37674616/article/details/84372896
-const Home: FC = () => {
-  const { api, columns } = queryClaimPaymentList()
-  const { err, res } = useFetch(api, { "transCode": "", "currentPage": 1, "pageSize": 10, "applyserialNo": "", "serialNo": "", "customerName": "", "certId": "" })
-  const { records = [] } = res
-  // const actionItem = {
-  //   "title": "操作管理",
-  //   width: 150,
-  //   "key": "action",
-  //   fixed: 'right',
-  //   render: () => <span>action</span>,
-  // }
-  const x = columns.reduce((pre, curr) => pre + curr.width, 0)
+const Edit: FC = () => {
+  const [body, setBody] = useState({})
+  const [serialInfo, setSerialInfo] = useState({ serialNo: getSearch(useLocation().search, 'serialNo') })
+  const { api, formList } = claimTrialPayment()
+  // const serialNo = 
+
+  const { err, res } = useFetch(api, serialInfo)
   console.log(err)
+  console.log(res)
 
-  const HomeForm = Form.create({ name: 'home-form' })((props: any) => {
-    const { getFieldDecorator, validateFields } = props.form
-    const submit = (e: any) => {
-      e.preventDefault()
-      validateFields((err: any, values: any) => {
-        console.log(values)
-      })
-    }
-    return (
-      <Form onSubmit={submit}>
-        <Form.Item>
-          {getFieldDecorator('username', {
-            rules: [{ required: true, message: 'Please input your username!' }],
-          })(
-            <Input
-              prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              placeholder="Username"
-            />,
-          )}
-        </Form.Item>
-        <Form.Item>
-          {getFieldDecorator('password', {
-            rules: [{ required: true, message: 'Please input your Password!' }],
-          })(
-            <Input
-              prefix={<Icon type="lock" style={{ color: 'rgba(0,0,0,.25)' }} />}
-              type="password"
-              placeholder="Password"
-            />,
-          )}
-        </Form.Item>
-        <Form.Item>
-          <Button type="primary" htmlType="submit">
-            Log in
-          </Button>
-        </Form.Item>
-      </Form>
-    )
-  })
+  // const selectItems = {}
 
-
+  // console.log(serialNo)
   return (
     <Div>
-      <p>转账还款认领</p>
-      <HomeForm></HomeForm>
-      <Table scroll={{ x, y: 200 }} rowKey="applySerialNo" dataSource={records.map((item: any) => ({ ...item, key: item.applyserialNo }))} columns={columns} />
-    </Div>
+      <p>还款申请信息</p>
+      <CommForm name="home-form" list={formList.map(item => ({ ...item, value: res[item.name] || item.value }))} callback={(values: IObject) => setBody(values)}></CommForm>
+    </Div >
   );
 }
 
-export default Home
+export default Edit

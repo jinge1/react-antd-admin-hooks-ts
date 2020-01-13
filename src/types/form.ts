@@ -13,4 +13,5 @@ export interface IInputItem {
   type?: TInputType;
   value?: any;
   options?: IOptions[];
+  [propName: string]: any
 }

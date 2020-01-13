@@ -1,5 +1,6 @@
 html,body,#root{
   height: 100%;
+  width:100%;
 }
 body {
   margin: 0;
@@ -24,4 +25,19 @@ ul{
 }
 .AppTest{
   color: green;
+}
+.commForm{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.commForm .ant-form-item{
+  display: flex;
+}
+
+.commForm .ant-form-item-label{
+  width: 84px;
+}
+.commForm .ant-form-item-control-wrapper{
+  flex: 1;
 }

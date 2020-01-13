@@ -7,6 +7,6 @@ interface IResult {
 export default () => {
   return {
     api: '/rlc-cts/server/qryProdList',
-    format: (result: IResult[]) => result.map(({ productName, productCode }) => ({ productName, productCode }))
+    format: (result: IResult[]) => result.map(({ productName, productCode }) => ({ key: productName, value: productCode }))
   }
 }

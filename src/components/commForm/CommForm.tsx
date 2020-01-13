@@ -1,22 +1,20 @@
-import React, { FC, useEffect, useState, useReducer } from 'react'
+import React, { FC, useState, useEffect, useContext } from 'react'
 import { Form, Input, Button, Row, Col, Select } from 'antd'
+import { storeContext } from '@/components/Provider'
 import { IInputItem } from '@/types/form'
-// import useFetch from '@/hooks/useFetch'
-import commFetch from '@/utils/commFetch'
-import qryProdList from '@/model/qryProdList'
 
 interface IObject {
   [propName: string]: any;
 }
 
-interface IAction{
+interface IAction {
   type: string;
   [propName: string]: any;
 }
 
 interface ISelect {
   [propName: string]: {
-    name: string;
+    key: string;
     body: IObject;
   }
 }
@@ -30,43 +28,27 @@ interface IProps {
 
 const { Option } = Select
 
-const { api, format } = qryProdList()
-
-const dataFetchReducer = (state: IObject, action: IAction) => {
-  switch (action.type) {
-    case 'FETCH_INIT':
-      return {
-        ...state,
-        // list: action.list
-      };
-    default:
-      throw state;
-  }
-}
+const maxCols = 3
 
 const CommForm: FC<IProps> = (props) => {
+  const { state, asyncDispatch } = useContext(storeContext)
+  const [showAll, setShowAll] = useState(false)
   const { name = 'comm-form', callback, list, selectItems = {} } = props
-  const [optionsRes, setOptionsRes] = useState({})
-  const [state, dispatch] = useReducer(dataFetchReducer, {})
-  // const { err: optionErr, res } = useFetch(api)
-  // console.log(res)
-  console.log(optionsRes)
+  const { options } = state
   useEffect(() => {
     const getOptions = () => {
-      let temp = {}
       Object.keys(selectItems).forEach(async (selectKey) => {
-        const { body } = selectItems[selectKey]
+        const { body, key } = selectItems[selectKey]
         if (selectKey === 'productIdArray') {
-          const result = await commFetch.toPost(api, body)
-          temp = { ...temp, [selectKey]: format(result) }
+          asyncDispatch({ type: 'SET_PRODUCT_NAME', key, body })
+        }
+        if (selectKey === 'phaseNoArray') {
+          asyncDispatch({ type: 'SET_FLOW_PHASE', key, body })
         }
       })
-      setOptionsRes(temp)
     }
-    if (Object.keys(selectItems).length > 0) {
-      getOptions()
-    }
-  }, [selectItems])
+    getOptions()
+  }, [selectItems, asyncDispatch])
 
   const TempForm = Form.create({ name })((fProps: { form: IObject }) => {
     const { form }: IObject = fProps
@@ -90,7 +72,7 @@ const CommForm: FC<IProps> = (props) => {
           <Button style={{ marginLeft: 8 }} onClick={reset}>
             重置
         </Button>
-          <Button style={{ marginLeft: 8 }}>
+          <Button style={{ marginLeft: 8 }} onClick={() => setShowAll(!showAll)}>
             展开
         </Button>
         </Col>
@@ -98,15 +80,17 @@ const CommForm: FC<IProps> = (props) => {
     )
 
     const getInput = (item: IInputItem) => {
-      const { type, options = [] } = item
+      const { type, name } = item
       if (type === 'input') {
         return <Input placeholder="请输入"></Input>
       }
       if (type === 'select') {
+        const key = selectItems[name] ? selectItems[name].key : ''
+        const items = key && options[key] ? options[key] : []
         return (
-          <Select>
-            {options.map(({ label, value }) => (
-              <Option key={value} value={value}>{label}</Option>
+          <Select mode="tags" maxTagCount={1}>
+            {items.map(({ key, value }: any) => (
+              <Option key={value} value={value}>{key}</Option>
             ))}
           </Select>
         )
@@ -115,16 +99,12 @@ const CommForm: FC<IProps> = (props) => {
     }
 
     return (
-      <Form onSubmit={submit}>
-        <Row>
-          {list.map((item) => (
-            <Col span={4} key={item.name}>
-              <Form.Item label={item.label}>
-                {getFieldDecorator(item.name)(getInput(item))}
-              </Form.Item>
-            </Col>
-          ))}
-        </Row>
+      <Form onSubmit={submit} layout="inline" className="commForm">
+        {list.filter((l, index) => showAll ? true : index < maxCols).map((item) => (
+          <Form.Item label={item.label} key={item.name}>
+            {getFieldDecorator(item.name, item.rules ? { rules: item.rules, initialValue: item.value || '' } : {})(getInput(item))}
+          </Form.Item>
+        ))}
         <ButtonRow></ButtonRow>
       </Form>
     )

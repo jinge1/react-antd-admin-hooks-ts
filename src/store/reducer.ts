@@ -1,8 +1,13 @@
 
 import { IState } from '@/store/state'
 import commFetch from '@/utils/commFetch'
+import qryProdList from '@/model/qryProdList'
+import qryFlowPhaseList from '@/model/qryFlowPhaseList'
 
 export const SET_MENU_LIST: string = 'SET_MENU_LIST'
+export const SET_OPTIONS: string = 'SET_OPTIONS'
+export const SET_FLOW_PHASE: string = 'SET_FLOW_PHASE'
+export const SET_PRODUCT_NAME: string = 'SET_PRODUCT_NAME'
 
 export interface IObject {
   [propName: string]: any
@@ -16,11 +21,8 @@ export interface IDispatch {
   (action: IAction): void
 }
 
-export const reducers = {
-  [SET_MENU_LIST](state: IState, info: IObject) {
-    return { ...state, ...info }
-  }
-}
+const { api, format } = qryProdList()
+const { api: productApi, format: productFormat } = qryFlowPhaseList()
 
 /**
  * asyncReducer 异步reducer
@@ -34,6 +36,24 @@ export const asyncReducer = (action: IAction, dispatch: IDispatch) => {
       try {
         const { list } = await commFetch.toPost('sso-portal/menu/getUserMenu')
         dispatch({ type: SET_MENU_LIST, menuList: list })
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async [SET_FLOW_PHASE](info: IObject, dispatch: IDispatch) {
+      const { key, body } = info
+      try {
+        const list = await commFetch.toPost(productApi, body)
+        dispatch({ type: SET_OPTIONS, [key]: productFormat(list) })
+      } catch (e) {
+        console.log(e)
+      }
+    },
+    async [SET_PRODUCT_NAME](info: IObject, dispatch: IDispatch) {
+      const { key, body } = info
+      try {
+        const list = await commFetch.toPost(api, body)
+        dispatch({ type: SET_OPTIONS, [key]: format(list) })
       } catch (e) {
         console.log(e)
       }
@@ -55,6 +75,11 @@ export const reducer = (state: IState, action: IAction) => {
   const actions = {
     [SET_MENU_LIST](info: IObject) {
       return { ...state, ...info }
+    },
+    [SET_OPTIONS](info: IObject) {
+      console.log('info', info)
+      const { options, ...other } = state
+      return { ...other, options: { ...options, ...info } }
     }
   }
   if (typeof actions[type] !== 'function') {

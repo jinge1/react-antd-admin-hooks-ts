@@ -1,9 +1,21 @@
-export interface IState {
-  menuList: Array<any>
+
+interface IOptions {
+  [propName: string]: IObject[];
 }
 
+interface IObject {
+  [propName: string]: string
+}
+
+export interface IState {
+  menuList: Array<any>;
+  options: IOptions
+}
+
+
 const initState: IState = {
-  menuList: []
+  menuList: [],
+  options: {}
 }
 
 export default initState

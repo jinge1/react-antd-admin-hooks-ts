@@ -2,12 +2,8 @@
  * 转账还款认领列表查询
  */
 import { IInputItem } from '@/types/form'
+import { IColumn } from '@/types/tabel'
 // import ApiModel from '@/utils/core/apiModel'
-
-interface IColumn {
-  width: number,
-  [propName: string]: any
-}
 
 
 // 表单信息
@@ -28,11 +24,13 @@ const formList: IInputItem[] = [
     type: 'select',
     label: '产品名称',
     value: [],
-    name: 'productIdArray',
-    options: [
-      { label: 'label1', value: 'value1' },
-      { label: 'label2', value: 'value2' }
-    ]
+    name: 'productIdArray'
+  },
+  {
+    type: 'select',
+    label: '当前流程状态',
+    value: [],
+    name: 'phaseNoArray'
   },
   {
     type: 'input',
@@ -108,7 +106,7 @@ const columns: IColumn[] = [
   },
   {
     "title": "剩余应还罚息",
-    width: 150,
+    // width: 150,
     "key": "payprincipalpenaltyAmt"
   },
   {
@@ -146,6 +144,6 @@ export default (options?: IOptions) => {
   return {
     api: 'rlc-mal/openserver/queryClaimPaymentList?menuId=959',
     formList,
-    columns: columns.map(item => ({ ...item, dataIndex: item.key }))
+    columns
   }
 }

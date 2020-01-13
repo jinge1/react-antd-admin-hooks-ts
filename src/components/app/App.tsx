@@ -25,6 +25,7 @@ const Main = styled.div`
   background: rgba(0,0,0,.02);
   display: flex;
   flex-direction: column;
+  overflow:hidden;
 `
 
 const Logo = styled.p`

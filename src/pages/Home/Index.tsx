@@ -4,6 +4,7 @@ import CommForm from '@/components/commForm/CommForm'
 import CommTable from '@/components/commTable/CommTable'
 import useFetch from '@/hooks/useFetch'
 import queryClaimPaymentList from '@/model/queryClaimPaymentList'
+import { NavLink } from 'react-router-dom'
 
 
 interface IObject {
@@ -19,9 +20,13 @@ const Div = styled.div`
 
 const selectItems = {
   productIdArray: {
-    name: 'productIdArray',
+    key: 'productIdArray',
     body: {}
-  }
+  },
+  phaseNoArray: {
+    key: 'phaseNoArray',
+    body: {}
+  },
 }
 
 // 转账还款认领
@@ -33,8 +38,8 @@ const Home: FC = () => {
     "title": "操作管理",
     width: 150,
     "key": "action",
-    // fixed: 'right',
-    render: () => <span>详情</span>
+    fixed: 'right',
+    render: (text: string, record: any) => <NavLink to={`/edit/?serialNo=${record.serialNo}`}>编辑</NavLink>
   }
 
   console.log('err', err)
@@ -42,7 +47,7 @@ const Home: FC = () => {
   return (
     <Div>
       <CommForm name="home-form" selectItems={selectItems} list={formList} callback={(values: IObject) => setBody(values)}></CommForm>
-      <CommTable rowKey="applySerialNo" records={records} columns={[...columns, actionItem]}></CommTable>
+      <CommTable rowKey="serialNo" records={records} columns={[...columns, actionItem]}></CommTable>
     </Div>
   );
 }
