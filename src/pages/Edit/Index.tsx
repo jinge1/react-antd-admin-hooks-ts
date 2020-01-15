@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useState, useCallback } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import styled from '@emotion/styled'
 import CommForm from '@/components/commForm/CommForm'
@@ -34,8 +34,6 @@ const Edit: FC = () => {
   const [body, setBody] = useState({})
   const [serialInfo, setSerialInfo] = useState({ serialNo: getSearch(useLocation().search, 'serialNo') })
   const { api, formList } = claimTrialPayment()
-  // const serialNo = 
-
   const { err, res } = useFetch(api, serialInfo)
   console.log(err)
   console.log(res)
@@ -46,7 +44,7 @@ const Edit: FC = () => {
   return (
     <Div>
       <p>还款申请信息</p>
-      <CommForm name="home-form" list={formList.map(item => ({ ...item, value: res[item.name] || item.value }))} callback={(values: IObject) => setBody(values)}></CommForm>
+      <CommForm name="home-form" list={formList.map(item => ({ ...item, value: res[item.name] || item.value || '' }))} callback={(values: IObject) => setBody(values)}></CommForm>
     </Div >
   );
 }

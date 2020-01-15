@@ -103,6 +103,10 @@ const EmotionDemo: FC = () => {
 export default EmotionDemo
 ```
 
+## api 请求
+
+可以考虑使用[swr 库](https://github.com/zeit/swr)
+
 ## yarn 常用命令
 
 - 初始化项目: `yarn init -y`
@@ -146,11 +150,11 @@ export default EmotionDemo
 
 ## 功能
 
-后台管理系统，主要分列表，详情，与编辑3部分
+后台管理系统，主要分列表，详情，与编辑 3 部分
 
 - 列表
 
-  - 搜索条件（根据屏幕自适应3-4个，输入框长度自适应，展开与收起控制）
+  - 搜索条件（根据屏幕自适应 3-4 个，输入框长度自适应，展开与收起控制）
 
   - 列表（分页：页码，跳转指定页，上一页，下一页；详情，编辑按钮）
 
