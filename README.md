@@ -12,7 +12,7 @@
    const { override } = require('customize-cra')
    const addCustomize = config => {
      if (process.env.NODE_ENV === 'production') {
-       config.devtool = false //去掉map文件
+       config.devtool = false // 去掉map文件
      }
      return config
    }
@@ -103,6 +103,8 @@ const EmotionDemo: FC = () => {
 export default EmotionDemo
 ```
 
+<!-- https://github.com/osdevisnot/react-app-rewire-contrib/tree/master/packages/react-app-rewire-emotion -->
+
 ## yarn 常用命令
 
 - 初始化项目: `yarn init -y`
@@ -142,7 +144,7 @@ export default EmotionDemo
 
 如果未安装 react-router-dom，会报错 Can't resolve 'react-router-dom'
 
-<!-- https://github.com/osdevisnot/react-app-rewire-contrib/tree/master/packages/react-app-rewire-emotion -->
+[react-router5文档](https://reacttraining.com/react-router/web/api/)
 
 ## 功能
 
@@ -161,3 +163,6 @@ export default EmotionDemo
   - 右侧项目有表单，表格（支持选择），统一提交，项目之间支持数据关联
 
   - 详情与编辑需展示不同效果
+
+
+<!-- Suspense -->

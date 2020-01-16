@@ -26,18 +26,20 @@ const formList: IInputItem[] = [
     label: '申请还款金额',
     value: '',
     name: 'payAmt',
-    rules: ['required'],
     isMoney: true
   },
   {
     type: 'select',
     label: '入账项目及顺序',
-    value: [],
+    value: ['10'],
     name: 'payRulesArray',
-    descName: 'payRuleDesc',
-    attrs: ['filterable', 'multiple', 'clearable', 'collapse-tags'],
     options: [],
-    rules: ['required']
+    rules: [
+      {
+        required: true,
+        message: 'who are you?'
+      }
+    ]
   },
   {
     type: 'select',
@@ -45,16 +47,14 @@ const formList: IInputItem[] = [
     value: [],
     name: 'finishTypeArray',
     attrs: ['filterable', 'multiple', 'clearable', 'collapse-tags'],
-    descName: 'finishtypeDesc',
-    rules: ['required']
+    descName: 'finishtypeDesc'
   },
   {
     type: 'input',
     label: '其他结清类型',
     value: '',
     name: 'otherFinishType',
-    // descName: 'otherFinishTypeDesc',
-    rules: ['required']
+    // descName: 'otherFinishTypeDesc'
   },
   {
     type: 'select',
@@ -62,8 +62,7 @@ const formList: IInputItem[] = [
     value: [],
     name: 'reductionTypeArray',
     attrs: ['filterable', 'multiple', 'clearable', 'collapse-tags'],
-    descName: 'reductionTypeDesc',
-    rules: ['required']
+    descName: 'reductionTypeDesc'
   },
   {
     type: 'select',
@@ -71,16 +70,14 @@ const formList: IInputItem[] = [
     value: [],
     name: 'sourcesTypeArray',
     attrs: ['filterable', 'multiple', 'clearable', 'collapse-tags'],
-    descName: 'sourcesTypeDesc',
-    rules: ['required']
+    descName: 'sourcesTypeDesc'
   },
   {
     type: 'input',
     label: '其他还款来源类型',
     value: '',
     name: 'otherSourcesType',
-    // descName: 'otherSourcesTypeDesc',
-    rules: ['required']
+    // descName: 'otherSourcesTypeDesc'
   },
   {
     type: 'input',

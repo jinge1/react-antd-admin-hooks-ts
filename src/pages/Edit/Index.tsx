@@ -32,13 +32,17 @@ const getSearch = (search: string, name?: string) => {
 // https://blog.csdn.net/qq_37674616/article/details/84372896
 const Edit: FC = () => {
   const [body, setBody] = useState({})
-  const [serialInfo, setSerialInfo] = useState({ serialNo: getSearch(useLocation().search, 'serialNo') })
+  // const [serialInfo, setSerialInfo] = useState({ serialNo: getSearch(useLocation().search, 'serialNo') })
   const { api, formList } = claimTrialPayment()
-  // const serialNo = 
+  // const { err, res } = useFetch(api, serialInfo)
+  // console.log(err)
+  // console.log(res)
 
-  const { err, res } = useFetch(api, serialInfo)
-  console.log(err)
-  console.log(res)
+  const res: IObject = {
+    applyTypeDesc: '10'
+  }
+
+  console.log(body)
 
   // const selectItems = {}
 

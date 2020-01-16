@@ -26,6 +26,10 @@ interface IProps {
   selectItems?: ISelect;
 }
 
+interface IValues{
+  [propName: string]: any
+}
+
 const { Option } = Select
 
 const maxCols = 3
@@ -55,7 +59,7 @@ const CommForm: FC<IProps> = (props) => {
     const { getFieldDecorator, validateFields } = form
     const submit = (e: any) => {
       e.preventDefault()
-      validateFields((err: any, values: any) => {
+      validateFields((err: any, values: IValues) => {
         callback(values)
       })
     }
