@@ -33,13 +33,9 @@ const formList: IInputItem[] = [
     label: '入账项目及顺序',
     value: ['10'],
     name: 'payRulesArray',
-    options: [],
-    rules: [
-      {
-        required: true,
-        message: 'who are you?'
-      }
-    ]
+    descName: 'payRuleDesc',
+    attrs: ['filterable', 'multiple', 'clearable', 'collapse-tags'],
+    options: []
   },
   {
     type: 'select',

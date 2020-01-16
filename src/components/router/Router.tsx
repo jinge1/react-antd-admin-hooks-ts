@@ -1,19 +1,21 @@
-import React, { FC } from 'react'
-import Home from '@/pages/Home/Index'
-import Form from '@/pages/Form/Index'
-import Fetch from '@/pages/Fetch/Index'
-import Edit from '@/pages/Edit/Index'
+import React, { FC, lazy, Suspense } from 'react'
 import { Switch, Route } from 'react-router-dom'
+const Home = lazy(() => import('@/pages/Home/Index'))
+const Form = lazy(() => import('@/pages/Form/Index'))
+const Fetch = lazy(() => import('@/pages/Fetch/Index'))
+const Edit = lazy(() => import('@/pages/Edit/Index'))
 
 const Router: FC = () => {
   return (
-    <Switch>
-      <Route path="/" exact component={Home}></Route>
-      <Route path="/form" component={Form}></Route>
-      <Route path="/fetch" component={Fetch}></Route>
-      <Route path="/list" component={Fetch}></Route>
-      <Route path="/edit" component={Edit}></Route>
-    </Switch>
+    <Suspense fallback={<div>Loading...</div>}>
+      <Switch>
+        <Route path="/" exact component={Home}></Route>
+        <Route path="/form" component={Form}></Route>
+        <Route path="/fetch" component={Fetch}></Route>
+        <Route path="/list" component={Fetch}></Route>
+        <Route path="/edit" component={Edit}></Route>
+      </Switch>
+    </Suspense>
   )
 }
 

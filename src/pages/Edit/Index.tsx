@@ -1,4 +1,4 @@
-import React, { FC, useState } from 'react'
+import React, { FC, useState, useCallback } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import styled from '@emotion/styled'
 import CommForm from '@/components/commForm/CommForm'
@@ -38,19 +38,13 @@ const Edit: FC = () => {
   // console.log(err)
   // console.log(res)
 
-  const res: IObject = {
-    applyTypeDesc: '10'
-  }
-
-  console.log(body)
-
   // const selectItems = {}
 
   // console.log(serialNo)
   return (
     <Div>
       <p>还款申请信息</p>
-      <CommForm name="home-form" list={formList.map(item => ({ ...item, value: res[item.name] || item.value }))} callback={(values: IObject) => setBody(values)}></CommForm>
+      <CommForm name="home-form" list={formList.map(item => ({ ...item, value: res[item.name] || item.value || '' }))} callback={(values: IObject) => setBody(values)}></CommForm>
     </Div >
   );
 }
